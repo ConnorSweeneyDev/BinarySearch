@@ -9,6 +9,7 @@ namespace BinarySearch
     {
         static Array HalfArray(Array array, string input)
         {
+            string[] words = File.ReadAllLines(@"c:\Users\connor\Documents\GitHub\BinarySearch\RandomWords.txt", Encoding.UTF8);
             string[] first = { };
             string[] second = { };
 
@@ -16,7 +17,9 @@ namespace BinarySearch
             first = array.Cast<string>().Take(mid).ToArray();
             second = array.Cast<string>().Skip(mid).ToArray();
 
-            if (first.Cast<string>().Contains(input, StringComparer.OrdinalIgnoreCase))
+            int LexCompare = String.Compare(input, words[mid]);
+
+            if (LexCompare == -1)
             {
                 return first;
             }
@@ -57,48 +60,47 @@ namespace BinarySearch
                     Console.Write("Please enter the word you would like to find the index of: ");
                     string input = Console.ReadLine();
 
-                    if (words.Contains(input, StringComparer.OrdinalIgnoreCase))
+                    Array halved = HalfArray(words, input);
+                    string[] HalvedArray = halved.OfType<object>().Select(word => word.ToString()).ToArray();
+                    int HalvedArrayCount = HalvedArray.Count();
+
+                    while (HalvedArrayCount != 1)
                     {
-                        Array halved = HalfArray(words, input);
-                        string[] HalvedArray = halved.OfType<object>().Select(word => word.ToString()).ToArray();
-                        int HalvedArrayCount = HalvedArray.Count();
+                        halved = HalfArray(HalvedArray, input);
+                        HalvedArray = halved.OfType<object>().Select(word => word.ToString()).ToArray();
+                        HalvedArrayCount = HalvedArray.Count();
 
-                        while (HalvedArrayCount != 1)
+                        if (Array.IndexOf(words, input) == -1)
                         {
-                            halved = HalfArray(HalvedArray, input);
-                            HalvedArray = halved.OfType<object>().Select(word => word.ToString()).ToArray();
-                            HalvedArrayCount = HalvedArray.Count();
-                        }
+                            Console.WriteLine("the word '" + input + "' is not in the file.");
+                            Console.Write("Do you want to add it to the list? (y/n): ");
+                            string add = Console.ReadLine();
 
-                        Console.WriteLine("The word '" + input + "' has an index of [" + Array.IndexOf(words, input) + "].");
-                        Console.WriteLine();
-
-                        Console.Write("Do you want to try another option? (y/n): ");
-                        restart = Console.ReadLine();
-                    }
-                    else
-                    {
-                        Console.WriteLine("the word '" + input + "' is not in the file.");
-                        Console.Write("Do you want to add it to the list? (y/n): ");
-                        string add = Console.ReadLine();
-
-                        if (add == "y")
-                        {
-                            TextWriter tsw = new StreamWriter(path, true);
-                            tsw.WriteLine();
-                            tsw.Write(input);
-                            tsw.Close();
-                            Console.WriteLine("The word has been added.");
+                            if (add == "y")
+                            {
+                                TextWriter tsw = new StreamWriter(path, true);
+                                tsw.WriteLine();
+                                tsw.Write(input);
+                                tsw.Close();
+                                Console.WriteLine("The word has been added.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("The word has not been added.");
+                            }
+                            Console.WriteLine();
+                            break;
                         }
                         else
                         {
-                            Console.WriteLine("The word has not been added.");
+                            Console.WriteLine("The word '" + input + "' has an index of [" + Array.IndexOf(words, input) + "].");
+                            Console.WriteLine();
+                            break;
                         }
-                        Console.WriteLine();
-
-                        Console.Write("Do you want to try another option? (y/n): ");
-                        restart = Console.ReadLine();
                     }
+
+                    Console.Write("Do you want to try another option? (y/n): ");
+                    restart = Console.ReadLine();
                 }
                 else
                 {
