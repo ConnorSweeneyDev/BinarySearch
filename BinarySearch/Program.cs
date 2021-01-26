@@ -10,12 +10,11 @@ namespace BinarySearch
         static Array HalfArray(Array array, string input)
         {
             string[] words = File.ReadAllLines(@"c:\Users\connor\Documents\GitHub\BinarySearch\RandomWords.txt", Encoding.UTF8);
-            string[] first = { };
-            string[] second = { };
+            Array.Sort(words);
 
             int mid = array.Length / 2;
-            first = array.Cast<string>().Take(mid).ToArray();
-            second = array.Cast<string>().Skip(mid).ToArray();
+            string[] first = array.Cast<string>().Take(mid).ToArray();
+            string[] second = array.Cast<string>().Skip(mid).ToArray();
 
             int LexCompare = String.Compare(input, words[mid]);
 
