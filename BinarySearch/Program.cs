@@ -35,6 +35,7 @@ namespace BinarySearch
         static void Main()
         {
             Console.SetWindowSize(118, 35);
+            
             //sets "path" to the location of the text file containing a list of random words
             string path = @"c:\Users\connor\Documents\GitHub\BinarySearch\RandomWords.txt";
             string restart = "y";
