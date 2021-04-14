@@ -118,7 +118,7 @@ namespace BinarySearch
                     Console.Write("Do you want to try another option? (y/n): ");
                     restart = Console.ReadLine();
                 }
-                else
+                else if (choice == "3")
                 {
                     //keeps track of the max index of the array
                     int MaxIndex = words.Length - 1;
@@ -146,6 +146,11 @@ namespace BinarySearch
                     }
                     Console.Write("Do you want to try another option? (y/n): ");
                     restart = Console.ReadLine();
+                }
+                else
+                {
+                    Console.WriteLine("That is not a valid option.");
+                    Console.WriteLine();
                 }
             }
         }
